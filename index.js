@@ -12,9 +12,18 @@ app.use(helmet());
 app.use(express.json({extended: true}));
 app.use(express.urlencoded({extended: true}));
 
-app.post("/:user_id", checkBodyTitle, checkQueryData, (req, res) => {
+//routes
+app.use("/api", require("./routes/index"))
+
+app.post("/test/:user_id", checkBodyTitle, checkQueryData, (req, res) => {
     console.log('fn 3');
-    return res.status(201).json({status: "online", body: {...req.body} ,query: {...req.query}, params: {...req.params}, headers: {...req.headers}})
+    return res.status(201).json({
+        status: "online", 
+        body: {...req.body},
+        query: {...req.query}, 
+        params: {...req.params}, 
+        headers: {...req.headers}
+    })
 })
 
 const {SERVER_PORT} = process.env;
