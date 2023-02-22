@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
+const {checkBodyTitle, checkQueryData} = require('./middlewares')
 
 app.use(cors());
 app.use(helmet());
@@ -11,10 +12,8 @@ app.use(helmet());
 app.use(express.json({extended: true}));
 app.use(express.urlencoded({extended: true}));
 
-app.post("/:user_id", (req, res) => {
-   if(req.body.title !== "test1" ) {
-    return res.status(500).json({message: "Error body title"})
-   }
+app.post("/:user_id", checkBodyTitle, checkQueryData, (req, res) => {
+    console.log('fn 3');
     return res.status(201).json({status: "online", body: {...req.body} ,query: {...req.query}, params: {...req.params}, headers: {...req.headers}})
 })
 
